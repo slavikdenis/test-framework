@@ -1,0 +1,1 @@
+expect('foobarfoo').toContain('noop');
