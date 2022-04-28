@@ -39,6 +39,20 @@ const { describe, it, run, resetState } = require('jest-circus');
 // 	},
 // });
 
+// const mock = {
+// 	fn: (implementation) => {
+// 		const mockFn = () => {
+// 			implementation?.();
+// 		};
+// 		mockFn._isMockFunction = true;
+// 		mockFn.getMOckName = () => 'mockFn';
+// 		mockFn.mock = {};
+// 		mockFn.mock.calls = [];
+// 		mockFn.mock.calls.count = () => mockFn.mock.calls.length;
+// 		return mockFn;
+// 	},
+// };
+
 exports.runTest = async function (testFile) {
 	const testResult = {
 		success: false,
