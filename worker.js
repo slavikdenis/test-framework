@@ -43,11 +43,13 @@ const { describe, it, run, resetState } = require('jest-circus');
 // 	fn: (implementation) => {
 // 		const mockFn = () => {
 // 			implementation?.();
+// 			mockFn.mock.calls.push([]);
 // 		};
 // 		mockFn._isMockFunction = true;
-// 		mockFn.getMOckName = () => 'mockFn';
+// 		mockFn.getMockName = () => 'mockFn';
 // 		mockFn.mock = {};
-// 		mockFn.mock.calls = [];
+// 		mockFn.mock.calls =
+// 			'calls' in mockFn.mock ? mockFn.mock.calls.push([]) : [];
 // 		mockFn.mock.calls.count = () => mockFn.mock.calls.length;
 // 		return mockFn;
 // 	},
