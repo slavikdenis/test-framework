@@ -15,15 +15,17 @@ import { runTest } from './worker.js';
 // Get the root path to our project (Like `__dirname`).
 const root = dirname(fileURLToPath(import.meta.url));
 
-// Need to use `.default` as of Jest 27.
-const hasteMap = new JestHasteMap.default({
+const hasteMapOptions = {
 	extensions: ['js'], // Tells jest-haste-map to only crawl .js files.
 	maxWorkers: cpus().length, // Parallelizes across all available CPUs.
 	name: 'test-framework', // Used for caching.
 	platforms: [], // This is only used for React Native, leave empty.
 	rootDir: root, // The project root.
 	roots: [root], // Can be used to only search a subset of files within `rootDir`.
-});
+};
+
+const hasteMap = new JestHasteMap.default(hasteMapOptions);
+await hasteMap.setupCachePath(hasteMapOptions);
 
 // Build and return an in-memory HasteFS ("Haste File System") instance.
 const { hasteFS } = await hasteMap.build();
@@ -45,7 +47,9 @@ let hasFailed = false;
 
 await Promise.all(
 	Array.from(testFiles).map(async (testFile) => {
-		const { success, errorMessage, testResults } = await worker.runTest(testFile);
+		const { success, errorMessage, testResults } = await worker.runTest(
+			testFile
+		);
 		const status = success
 			? chalk.green.inverse.bold(' PASS ')
 			: chalk.red.inverse.bold(' FAIL ');

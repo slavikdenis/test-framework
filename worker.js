@@ -1,12 +1,12 @@
 const vm = require('vm');
 const fs = require('fs');
-const NodeEnvironment = require('jest-environment-node');
+const NodeEnvironment = require('jest-environment-node').default;
 const { dirname, basename, join } = require('path');
 
 /**
  * III. Use an assertion framework for writing tests and report results
  */
-const expect = require('expect');
+const expect = require('expect').default;
 const mock = require('jest-mock');
 const { describe, it, run, resetState } = require('jest-circus');
 
@@ -129,11 +129,13 @@ exports.runTest = async function (testFile) {
 		// vm.runInContext(code, environment.getVmContext());
 
 		environment = new NodeEnvironment({
-			testEnvironmentOptions: {
-				describe,
-				it,
-				expect,
-				mock,
+			projectConfig: {
+				testEnvironmentOptions: {
+					describe,
+					it,
+					expect,
+					mock,
+				},
 			},
 		});
 		// Use `customRequire` to run the test file.
